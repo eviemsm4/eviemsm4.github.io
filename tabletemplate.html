@@ -149,7 +149,7 @@ function myFunction3() {
 }
 
 function test() {
-  var search = window.location;
+  var search = new URL(window.location.href);;
   var input = document.getElementById("myInput3");
   var output = document.getElementById("test")
   output.innerHTML = "'" + search.value + "'"
