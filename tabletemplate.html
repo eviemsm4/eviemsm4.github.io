@@ -8,7 +8,6 @@
 }
 
 #myInput1, #myInput2, #myInput3 {
-  background-image: url('/css/searchicon.png');
   background-position: 10px 10px;
   background-repeat: no-repeat;
   width: 33.1%;
@@ -19,10 +18,9 @@
 }
 
 #myTable {
-  border-collapse: collapse;
-  width: 100%;
   border: 1px solid #ddd;
   font-size: 18px;
+  width: 2000px;
 }
 
 #myTable th, #myTable td {
@@ -37,6 +35,7 @@
 #myTable tr.header, #myTable tr:hover {
   background-color: #f1f1f1;
 }
+
 </style>
 </head>
 <body onLoad="myFunction1(); myFunction2(); myFunction3()">
@@ -27050,6 +27049,36 @@
 </tbody></table>
 
   <script>
+  var loc = location.href;
+  var locationField1 = document.getElementById('myInput1');
+  var locationField2 = document.getElementById('myInput2');
+  var locationField3 = document.getElementById('myInput3');
+  const var1 = loc.split('var1=').pop();
+  var part1 = var1.substring(
+      var1.lastIndexOf("var1=") + 1, 
+      var1.lastIndexOf("&var2=")
+  );
+  const var2 = loc.split('&var2=').pop();
+  var part2 = var2.substring(
+      var2.lastIndexOf("&var2=") + 1, 
+      var2.lastIndexOf("&var3=")
+  );
+  const var3 = loc.split('&var3=').pop();
+  var part3 = var3.substring(
+      var3.lastIndexOf("&var3=") + 1, 
+      var3.lastIndexOf("")
+  );
+  part1 = part1.replace(/%20/g, " ");
+  part1 = part1.replace(/%2F/g, "/");
+  part2 = part2.replace(/%20/g, " ");
+  part2 = part2.replace(/%2F/g, "/");
+  part3 = part3.replace(/%20/g, " ");
+  part3 = part3.replace(/%2F/g, "/");
+  locationField1.value = part1;
+  locationField2.value = part2;
+  locationField3.value = part3;
+  
+  
 function myFunction1() {
   var input, filter, table, tr, td, i, txtValue;
   input = document.getElementById("myInput1");
@@ -27108,29 +27137,6 @@ function myFunction3() {
   }
 }
 
-
-var loc = location.href;
-var locationField1 = document.getElementById('myInput1');
-var locationField2 = document.getElementById('myInput2');
-var locationField3 = document.getElementById('myInput3');
-const var1 = loc.split('var1=').pop();
-var part1 = var1.substring(
-    var1.lastIndexOf("var1=") + 1, 
-    var1.lastIndexOf("&var2=")
-);
-const var2 = loc.split('&var2=').pop();
-var part2 = var2.substring(
-    var2.lastIndexOf("&var2=") + 1, 
-    var2.lastIndexOf("&var3=")
-);
-const var3 = loc.split('&var3=').pop();
-var part3 = var3.substring(
-    var3.lastIndexOf("&var3=") + 1, 
-    var3.lastIndexOf("")
-);
-locationField1.value = part1;
-locationField2.value = part2;
-locationField3.value = part3;
 </script>
 
 </body>
