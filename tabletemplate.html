@@ -28186,7 +28186,7 @@ function myFunction() {
 
 function UpdateCount () {
   var returnt = document.getElementById('rowscount');
-  var totalRows = $('tr:not([style*="display: none"])').length;
+  var totalRows = $('#myTable tr:not([style*="display: none"])').length;
   returnt.innerHTML = totalRows;
 }
 </script>
