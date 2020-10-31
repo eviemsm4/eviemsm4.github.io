@@ -38,13 +38,9 @@
 
 </style>
 </head>
-<body onLoad="myFunction1(); myFunction2(); myFunction3()">
+<body onload="prefill(); myFunction()">
 
-<h2>My Customers</h2>
-
-<input type="text" id="myInput1" onkeyup="myFunction1()" placeholder="Search for study location.." title="Type in a location">
-<input type="text" id="myInput2" onkeyup="myFunction2()" placeholder="Search for institution type.." title="Type in an institution">
-<input type="text" id="myInput3" onkeyup="myFunction3()" placeholder="Search for outcome.." title="Type in an outcome">
+<input type="text" id="myInput1" onload="myFunction()" hidden>
 
 <table class="table table-bordered table-hover table-condensed" id="myTable">
 <thead><tr><th title="Field #1">id</th>
@@ -27049,94 +27045,42 @@
 </tbody></table>
 
   <script>
+function prefill (){
   var loc = location.href;
   var locationField1 = document.getElementById('myInput1');
-  var locationField2 = document.getElementById('myInput2');
-  var locationField3 = document.getElementById('myInput3');
   const var1 = loc.split('var1=').pop();
   var part1 = var1.substring(
       var1.lastIndexOf("var1=") + 1, 
-      var1.lastIndexOf("&var2=")
-  );
-  const var2 = loc.split('&var2=').pop();
-  var part2 = var2.substring(
-      var2.lastIndexOf("&var2=") + 1, 
-      var2.lastIndexOf("&var3=")
-  );
-  const var3 = loc.split('&var3=').pop();
-  var part3 = var3.substring(
-      var3.lastIndexOf("&var3=") + 1, 
-      var3.lastIndexOf("")
+      var1.lastIndexOf("")
   );
   part1 = part1.replace(/%20/g, " ");
   part1 = part1.replace(/%2F/g, "/");
-  part2 = part2.replace(/%20/g, " ");
-  part2 = part2.replace(/%2F/g, "/");
-  part3 = part3.replace(/%20/g, " ");
-  part3 = part3.replace(/%2F/g, "/");
   locationField1.value = part1;
-  locationField2.value = part2;
-  locationField3.value = part3;
-  
-  
-function myFunction1() {
-  var input, filter, table, tr, td, i, txtValue;
+}
+
+function myFunction() {
+  var input, filter, table, tr, td, i;
   input = document.getElementById("myInput1");
   filter = input.value.toUpperCase();
   table = document.getElementById("myTable");
   tr = table.getElementsByTagName("tr");
-  
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+  for (var i = 0; i < tr.length; i++) {
+    var tds = tr[i].getElementsByTagName("td");
+    var flag = false;
+    for(var j = 0; j < tds.length; j++){
+      var td = tds[j];
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        flag = true;
+      } 
+    }
+    if(flag){
         tr[i].style.display = "";
-      } else {
+    }
+    else {
         tr[i].style.display = "none";
-      }
-    }       
+    }
   }
 }
-
-function myFunction2() {
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput2");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[2];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }       
-  }
-}
-
-function myFunction3() {
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput3");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[3];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }       
-  }
-}
-
 </script>
 
 </body>
