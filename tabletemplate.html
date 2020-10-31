@@ -3,6 +3,11 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=2">
 <style type='text/css'>
+.titletext {
+  font-weight: 400;
+  font-family: sans-serif;
+  font-size: 20px;
+}
 
 table {
   
@@ -50,7 +55,7 @@ tr.header, tr:hover {
 </style>
 </head>
 <body onload="prefill(); myFunction()">
-
+<p class="titletext">Selected studies for: <span id="selection" onload="prefill()" style="color:#938D69"></span></p>
 <input type="text" id="myInput1" onkeyup="myFunction()" onload="myFunction()" hidden>
 
 <table>
@@ -28139,6 +28144,7 @@ tr.header, tr:hover {
 function prefill (){
   var loc = location.href;
   var locationField1 = document.getElementById('myInput1');
+  var printout = document.getElementById('selection');
   const var1 = loc.split('var1=').pop();
   var part1 = var1.substring(
       var1.lastIndexOf("var1=") + 1, 
@@ -28147,6 +28153,7 @@ function prefill (){
   part1 = part1.replace(/%20/g, " ");
   part1 = part1.replace(/%2F/g, "/");
   locationField1.value = part1;
+  printout.innerHTML = part1;
 }
 
 function myFunction() {
