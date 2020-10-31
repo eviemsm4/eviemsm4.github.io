@@ -15,9 +15,12 @@
             }
         </style>
     </head>
-    <body>
+    <body onload="prefill(); myFunction()">
         <!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
         <script src="https://d3js.org/d3.v3.min.js"></script>
+        
+        <input type="text" id="myInput1" onload="myFunction()" placeholder="Search for study location.." title="Type in a location" class="w3-input">
+
 
         <script type="text/javascript"charset="utf-8">
             d3.text("data.csv", function(data) {
@@ -35,6 +38,61 @@
                         .append("td")
                         .text(function(d) { return d; });
             });
+            
+            function prefill (){
+  var loc = location.href;
+  var locationField1 = document.getElementById('myInput1');
+  var locationField2 = document.getElementById('myInput2');
+  var locationField3 = document.getElementById('myInput3');
+  const var1 = loc.split('var1=').pop();
+  var part1 = var1.substring(
+      var1.lastIndexOf("var1=") + 1, 
+      var1.lastIndexOf("&var2=")
+  );
+  const var2 = loc.split('&var2=').pop();
+  var part2 = var2.substring(
+      var2.lastIndexOf("&var2=") + 1, 
+      var2.lastIndexOf("&var3=")
+  );
+  const var3 = loc.split('&var3=').pop();
+  var part3 = var3.substring(
+      var3.lastIndexOf("&var3=") + 1, 
+      var3.lastIndexOf("")
+  );
+  part1 = part1.replace(/%20/g, " ");
+  part1 = part1.replace(/%2F/g, "/");
+  part2 = part2.replace(/%20/g, " ");
+  part2 = part2.replace(/%2F/g, "/");
+  part3 = part3.replace(/%20/g, " ");
+  part3 = part3.replace(/%2F/g, "/");
+  locationField1.value = part1;
+  locationField2.value = part2;
+  locationField3.value = part3;
+}
+
+function myFunction() {
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("myInput1");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (var i = 0; i < tr.length; i++) {
+    var tds = tr[i].getElementsByTagName("td");
+    var flag = false;
+    for(var j = 0; j < tds.length; j++){
+      var td = tds[j];
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        flag = true;
+      } 
+    }
+    if(flag){
+        tr[i].style.display = "";
+    }
+    else {
+        tr[i].style.display = "none";
+    }
+  }
+}
         </script>
     </body>
 </html>
