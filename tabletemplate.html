@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+  
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  
 <meta name="viewport" content="width=device-width, initial-scale=2">
 <style type='text/css'>
 .titletext {
@@ -10,7 +13,6 @@
 }
 
 table {
-  
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
@@ -20,10 +22,7 @@ table {
   box-sizing: border-box;
   margin-bottom: 110px;
   background-color: #fff;
-  padding-top: 60px;
-  border-radius: 10px;
-
-  border: 1px solid #ddd;
+  padding-top: 5px;
   font-size: 14px;
   width: 5000px;
   word-wrap: break-word;
@@ -54,10 +53,10 @@ tr.header, tr:hover {
 
 </style>
 </head>
-<body onload="prefill(); myFunction()">
-<p class="titletext">Selected studies for: <span id="selection" onload="prefill()" style="color:#938D69"></span></p>
-<input type="text" id="myInput1" onkeyup="myFunction()" onload="myFunction()" hidden>
-
+<body onload="prefill(); myFunction(); UpdateCount()">
+  
+<p class="titletext">Showing <span id="rowscount" style="color:#938D69"></span> of <span id="totcount"></span> selected studies for <span id="selection" onload="prefill()" style="color:#938D69"></span></p>
+<input type="text" id="myInput1" onload="myFunction()" hidden>
 <table>
 <thead><tr><th title="Field #1">id</th>
 <th title="Field #2">loc</th>
@@ -28162,6 +28161,11 @@ function myFunction() {
   filter = input.value.toUpperCase();
   table = document.getElementById("myTable");
   tr = table.getElementsByTagName("tr");
+  
+  var totcounts = document.getElementById('totcount');
+  var output = tr.length;
+  totcounts.innerHTML = output;
+  
   for (var i = 0; i < tr.length; i++) {
     var tds = tr[i].getElementsByTagName("td");
     var flag = false;
@@ -28178,6 +28182,12 @@ function myFunction() {
         tr[i].style.display = "none";
     }
   }
+}
+
+function UpdateCount () {
+  var returnt = document.getElementById('rowscount');
+  var totalRows = $('tr:not([style*="display: none"])').length;
+  returnt.innerHTML = totalRows;
 }
 </script>
 
