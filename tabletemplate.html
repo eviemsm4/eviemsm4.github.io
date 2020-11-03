@@ -3,7 +3,20 @@
 <head>
   
   <script src="jquery.min.js"></script>
+  <script src="https://revviz.github.io/js/jquery.tablesorter.min.js"></script>
+  <script src="https://revviz.github.io/js/jquery.tablesorter.widgets.min.js"></script>
   
+  <script>
+	$(function(){
+		$('table').tablesorter({
+			widgets        : ['zebra', 'columns'],
+			usNumberFormat : false,
+			sortReset      : true,
+			sortRestart    : true
+		});
+	});
+	</script>
+	
 <meta name="viewport" content="width=device-width, initial-scale=2">
 <style type='text/css'>
 .titletext {
@@ -49,13 +62,38 @@ tr {
 tr.header, tr:hover {
   background-color: #f4f3ed;
 }
+body.tablesorter-disableSelection { 
+  -ms-user-select: none; 
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none; 
+  user-select: none; 
+  
+}
+
+.tablesorter-resizable-container { 
+  position: relative; 
+  height: 1px; 
+}
+
+.tablesorter-resizable-handle { 
+  position: absolute; 
+  display: inline-block; 
+  width: 8px;
+  top: 1px; 
+  cursor: ew-resize; 
+  z-index: 3; 
+  user-select: none; 
+  -moz-user-select: none; 
+}
 
 </style>
 </head>
 <body onload="prefill(); myFunction(); UpdateCount()">
   
-<p class="titletext">Showing <span id="rowscount" onload="myFunction()" style="color:#938D69"></span> of <span id="totcount"></span> selected studies: <span id="selection" onload="prefill()" style="color:#938D69"></span></p>
+<p class="titletext">Showing <span id="rowscount" onload="myFunction()" style="color:#938D69"></span> (from a total of <span id="totcount"></span>) studies: <span id="selection" onload="prefill()" style="color:#938D69"></span></p>
 <input type="text" id="myInput1" onload="myFunction()" hidden>
+<button onclick="exportTableToCSV('table.csv')">Download as CSV</button>
 <table><thead><tr><th>id</th><th>loc</th><th>inst</th><th>outcome</th><th>abs</th><th>title</th><th>url</th><th>year</th><th>appr</th><th>delv</th><th>dur</th><th>oucome2</th><th>outcome3</th><th>trial</th><th>size</th><th>cluster</th><th>effect</th><th>analysis</th><th>long</th><th>genr</th><th>qual</th><th>theor</th><th>refle</th><th hidden>search</th></tr></thead>
 <tbody id="myTable"><tr>
   <td>3031402</td>
@@ -30682,8 +30720,54 @@ function UpdateCount () {
   returnt.innerHTML = totalRows;
 }
 
-$("#container").on('click-row.bs.table', function (e, row, $element) {
-    window.location = $element.data('href');
+function downloadCSV(csv, filename) {
+    var csvFile;
+    var downloadLink;
+
+    // CSV file
+    csvFile = new Blob([csv], {type: "text/csv"});
+
+    // Download link
+    downloadLink = document.createElement("a");
+
+    // File name
+    downloadLink.download = filename;
+
+    // Create a link to the file
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+
+    // Hide download link
+    downloadLink.style.display = "none";
+
+    // Add the link to DOM
+    document.body.appendChild(downloadLink);
+
+    // Click download link
+    downloadLink.click();
+}
+
+function exportTableToCSV(filename) {
+            var csv = [];
+            var rows = document.querySelectorAll("table tr");
+
+            for (var i = 0; i < rows.length; i++) {
+                // Don't add the row to the csv if it's hidden due to filtering.
+                if (rows[i].style.display === "none") continue;
+                
+                var row = [], cols = rows[i].querySelectorAll("td, th");
+
+                for (var j = 0; j < cols.length; j++) 
+                    row.push("\""+cols[j].innerText+"\"");
+
+                csv.push(row.join(","));        
+            }
+
+            // Download CSV file
+            downloadCSV(csv.join("\n"), filename);
+}
+
+$("table").children().each(function() {
+        $(this).html($(this).html().replace(/"/g,"'"));
 });
 
 </script>
